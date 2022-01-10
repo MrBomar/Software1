@@ -18,13 +18,12 @@ public class PartForm {
         this.stage = InventoryControlApplication.stage;
     }
 
-    public Scene getScene() {
-        return buildForm("add");
+    public PartForm(Part part) {
+        this.part = part;
     }
 
-    public Scene getScene(Part part) {
-        this.part = part;
-        return buildForm("modify");
+    public Scene getScene() {
+        return (this.part != null)? buildForm("modify") : buildForm("add");
     }
 
     private Scene buildForm(String method) {

@@ -1,8 +1,8 @@
 module wgu.assignment {
-    requires javafx.controls;
     requires javafx.fxml;
+    requires  javafx.controls;
 
+    opens wgu.assignment to javafx.graphics;
 
-    opens wgu.assignment to javafx.fxml;
     exports wgu.assignment;
 }
