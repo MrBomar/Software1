@@ -59,7 +59,7 @@ public class InventorySubForm {
         gridPane.add(deleteButton, 4, 2);
 
         //Button Methods
-        addButton.setOnAction(e -> onOpenButtonClick());
+        addButton.setOnAction(e -> onAddButtonClick());
         modifyButton.setOnAction(e -> onModifyButtonClick());
         deleteButton.setOnAction(e -> onDeleteButtonClick());
     }
@@ -79,7 +79,7 @@ public class InventorySubForm {
         return this.root;
     }
 
-    private void onOpenButtonClick() {
+    private void onAddButtonClick() {
         if(this.type == "Parts") {
             stage.setScene(new PartForm().getScene());
         }

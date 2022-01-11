@@ -16,13 +16,23 @@ public class Inventory {
     }
 
     public static Part lookupPart(int partId) {
-        //FIXME - Add logic for looking up a part in the allParts list using the part ID
-        return new InHouse(1,"Test Part", 12.89, 5,2,10, 1);
+        int index = -1;
+        for (int i = 0; i < allParts.size(); i++) {
+            if(partId == allParts.get(i).getId()) {
+                index = i;
+            };
+        }
+        return allParts.get(index);
     }
 
     public static Product lookupProduct(int productId) {
-        //FIXME - Add logic for looking up a part in the allProducts list using the productID
-        return new Product(1, "Test Product", 120.50, 10, 5, 20);
+        int index = -1;
+        for(int i = 0; i < allProducts.size(); i++) {
+            if(productId == allProducts.get(i).getId()) {
+                index = i;
+            }
+        }
+        return allProducts.get(index);
     }
 
     public static ObservableList<Part> lookupPart(String partName) {
@@ -36,21 +46,27 @@ public class Inventory {
     }
 
     public static void updatePart(int index, Part selectedPart) {
-        //FIXME - Add logic to remove the part at specified index and insert the selectedPart into the allParts
+        //Step 1 - Delete the old part
+        deletePart(lookupPart(selectedPart.getId()));
+
+        //Step 2 - Add the selected part
+        addPart(selectedPart);
     }
 
     public static void updateProduct(int index, Product selectedProduct) {
-        //FIXME - Add logic to remove the product at the specified index and insert selectedProduct into allProducts
+        //Step 1 - Delete the old part
+        deleteProduct(lookupProduct(selectedProduct.getId()));
+
+        //Step 2 - Add the selected product
+        addProduct(selectedProduct);
     }
 
     public static boolean deletePart(Part selectedPart) {
-        //FIXME - Add logic to locate the selected part and remove it from allParts
-        return true;
+        return getAllParts().remove(selectedPart);
     }
 
     public static boolean deleteProduct(Product selectedProduct) {
-        //FIXME - Add logic to locate the selected part and remove it from allProducts
-        return true;
+        return getAllProducts().remove(selectedProduct);
     }
 
     public static ObservableList<Part> getAllParts() {

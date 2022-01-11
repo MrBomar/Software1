@@ -32,13 +32,6 @@ public class PartsTableView {
         //Here we set the columns and add the tableView to the gridPane
         this.list.getColumns().setAll(idCol, nameCol, invLevel, priceCol);
 
-        //Set selection
-        this.list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Part>() {
-            @Override
-            public void changed(ObservableValue<? extends Part> observableValue, Part part, Part t1) {
-                System.out.println(t1.getName());
-            }
-        });
     }
 
     public TableView<Part> getPartsTableView() { return this.list; }
