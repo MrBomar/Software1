@@ -2,6 +2,7 @@ package wgu.assignment;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,7 +14,8 @@ public abstract class ItemForm {
     protected static Stage stage = InventoryControlApplication.stage;
     protected String mode;
     protected GridPane gridPane = new GridPane();
-    protected Scene scene = new Scene(this.gridPane);
+    protected Pane pane = new Pane(this.gridPane);
+    protected Scene scene = new Scene(this.pane);
     protected GridPane gridForm = new GridPane();
     protected final Label titleLabel = new Label();
     protected final Label idLabel = new Label("ID");
@@ -37,7 +39,7 @@ public abstract class ItemForm {
         this.priceLabel.setText(priceLabelText);
 
         //Format gridPane
-        this.gridPane.setGridLinesVisible(true);
+        this.gridPane.setGridLinesVisible(false);
         this.gridPane.setPadding(new Insets(50,50,50,50));
         this.gridPane.setHgap(45);
 
@@ -49,6 +51,10 @@ public abstract class ItemForm {
 
         //Format title label
         this.titleLabel.setStyle("-fx-font-weight: bold");
+
+        //Set idField prompt text and disable
+        this.idField.setPromptText("Auto Gen- Disabled");
+        this.idField.setDisable(true);
 
         //Add Labels to the grid
         this.gridPane.add(this.titleLabel, 0, 0);
@@ -71,10 +77,6 @@ public abstract class ItemForm {
         this.cancelButton.setOnAction(e -> this.cancelButtonMethod());
         this.saveButton.setOnAction((e -> this.saveButtonMethod()));
 
-        //Add Buttons to GridPane
-        this.gridForm.add(this.saveButton, 2, 6);
-        this.gridForm.add(this.cancelButton, 3, 6);
-
         //Add gridForm to gridPane
         this.gridPane.add(this.gridForm, 0, 1, 3, 1);
     }
@@ -88,5 +90,19 @@ public abstract class ItemForm {
 
     protected void closeForm() {
         InventoryControlApplication.stage.setScene(InventoryControlApplication.mainForm.getScene());
+    }
+
+    protected void addButtonsToGridPane() {
+        /*
+            This method should be called last when building the scene
+            doing this will ensure the correct tab order is maintained.
+         */
+        this.gridForm.add(this.saveButton, 2, 6);
+        this.gridForm.add(this.cancelButton, 3, 6);
+    }
+
+    protected void idFieldClicked() {
+        Modal modal = new Modal();
+        modal.displayMessage("Modification Denied", "The part ID is auto-assigned and cannot be modified by the user.");
     }
 }

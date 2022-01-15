@@ -34,14 +34,6 @@ public class PartForm extends ItemForm {
         this.gridPane.add(this.inHouseRadioButton, 1, 0);
         this.gridPane.add(this.outsourcedRadioButton, 2, 0);
 
-        //Add miscLabel and miscField
-        this.partMiscLabel.setMinWidth(100);
-        this.gridForm.add(this.partMiscLabel, 0, 5);
-        this.gridForm.add(this.partMiscField, 1, 5);
-
-        //Set idField prompt text
-        this.idField.setPromptText("Auto- Gen - Disabled"); //Part specific element
-
         //Add listeners to the radio button group
         this.partTypeToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
@@ -50,9 +42,17 @@ public class PartForm extends ItemForm {
             }
         });
 
-        //Part specific element
+        //Detect mode of operation and load part data if required.
         if(this.mode.equals("Modify Part")) { this.insertPartData(); }
         else { this.inHouseRadioButton.setSelected(true); }
+
+        //Add miscLabel and miscField
+        this.partMiscLabel.setMinWidth(100);
+        this.gridForm.add(this.partMiscLabel, 0, 5);
+        this.gridForm.add(this.partMiscField, 1, 5);
+
+        //Add Buttons to GridPane
+        this.addButtonsToGridPane(); //Adds the default buttons to the pane.
     }
 
     private void insertPartData() {

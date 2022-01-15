@@ -1,9 +1,7 @@
 package wgu.assignment;
 
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 public class ProductForm extends ItemForm {
     private Product product;
@@ -23,6 +21,8 @@ public class ProductForm extends ItemForm {
     }
 
     private void setStage() {
+        this.pane.setMaxHeight(580);
+
         //Instantiate SubForms
         partsSubForm = new InventorySubForm(
                 new PartsTableView(InventoryControlApplication.inventory.getAllParts()),
@@ -49,10 +49,6 @@ public class ProductForm extends ItemForm {
         this.gridForm.getChildren().remove(this.cancelButton);
         this.gridPane.add(this.saveButton, 6, 4, 1, 1);
         this.gridPane.add(this.cancelButton, 7,4,1, 1);
-
-        //Additional formatting
-        this.gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
-        this.gridPane.setPadding(new Insets(20,20,20,20));
     }
 
     protected void saveButtonMethod() {
