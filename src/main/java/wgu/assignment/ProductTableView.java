@@ -11,8 +11,8 @@ public class ProductTableView {
     public ProductTableView() {
         this.list = new TableView<>();
         this.list.setItems(inventory.getAllProducts());
-        this.list.setMinWidth(400);
-        this.list.setMaxWidth(400);
+        this.list.setMinWidth(410);
+        this.list.setMaxWidth(410);
         this.list.setMinHeight(150);
         this.list.setPrefHeight(100);
 
@@ -26,6 +26,7 @@ public class ProductTableView {
         TableColumn<Product, String> priceCol = new TableColumn<Product, String>("Price/Cost per unit");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceCol.setPrefWidth(150);
+        invLevel.setMinWidth(100);
 
         //Here we set the columns and add the tableView to the gridPane
         this.list.getColumns().setAll(idCol, nameCol, invLevel, priceCol);

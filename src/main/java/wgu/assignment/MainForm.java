@@ -2,23 +2,16 @@ package wgu.assignment;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
 
 public class MainForm {
-    private static Inventory inventory;
-    private static Stage stage;
-    private InventorySubForm partsSubForm = new InventorySubForm(new PartsTableView());
-    private InventorySubForm productsSubForm = new InventorySubForm(new ProductTableView());
+    private InventorySubForm partsSubForm = new InventorySubForm(new PartsTableView(InventoryControlApplication.inventory.getAllParts()), "Parts");
+    private InventorySubForm productsSubForm = new InventorySubForm(new ProductTableView(), "Products");
 
     public MainForm() {
-        this.inventory = InventoryControlApplication.inventory;
-        this.stage = InventoryControlApplication.stage;
+
     }
 
     public Scene getScene() {

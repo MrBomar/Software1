@@ -5,14 +5,17 @@ import javafx.stage.Stage;
 
 public class InventoryControlApplication extends Application {
     public static Inventory inventory = new Inventory();
+    public static Modal appModal;
     public static Stage stage;
+    public static MainForm mainForm;
 
     @Override
     public void start(Stage stage) {
         this.stage = stage;
+        this.appModal = new Modal();
 
         //Set the first view
-        MainForm mainForm = new MainForm();
+        this.mainForm = new MainForm();
         stage.setScene(mainForm.getScene());
         stage.show();
     }

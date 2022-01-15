@@ -1,20 +1,18 @@
 package wgu.assignment;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PartsTableView {
-    private static Inventory inventory = new Inventory();
     private TableView<Part> list;
 
-    public PartsTableView() {
+    public PartsTableView(ObservableList<Part> partList) {
         this.list = new TableView<>();
-        this.list.setItems(inventory.getAllParts());
-        this.list.setMinWidth(400);
-        this.list.setMaxWidth(400);
+        this.list.setItems(partList);
+        this.list.setMinWidth(410);
+        this.list.setMaxWidth(410);
         this.list.setMinHeight(150);
         this.list.setPrefHeight(100);
 
@@ -28,10 +26,10 @@ public class PartsTableView {
         TableColumn<Part, String> priceCol = new TableColumn<Part, String>("Price/Cost per unit");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceCol.setPrefWidth(150);
+        invLevel.setMinWidth(100);
 
         //Here we set the columns and add the tableView to the gridPane
         this.list.getColumns().setAll(idCol, nameCol, invLevel, priceCol);
-
     }
 
     public TableView<Part> getPartsTableView() { return this.list; }
