@@ -105,4 +105,100 @@ public abstract class ItemForm {
         Modal modal = new Modal();
         modal.displayMessage("Modification Denied", "The part ID is auto-assigned and cannot be modified by the user.");
     }
+
+    /*
+    Below are the user input validation methods
+     */
+
+    private boolean validInt(String string) {
+        try {
+            int test = Integer.parseInt(string);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean validDouble(String string) {
+        try {
+            double test = Double.parseDouble(string);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    private int getStockInt() {
+        return Integer.parseInt(this.stockField.getText());
+    }
+
+    private double getPriceDouble() {
+        return Double.parseDouble(this.priceField.getText());
+    }
+
+    private int getMaxInt() {
+        return Integer.parseInt(this.maxField.getText());
+    }
+
+    private int getMinInt() {
+        return Integer.parseInt(this.minField.getText());
+    }
+
+    protected boolean validateBeforeSave() {
+        if(!this.validInt(this.stockField.getText())) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Inv' field is invalid. /n Please enter an non-decimal numeric value.");
+            return false;
+        }
+        else if(!this.validDouble(this.priceField.getText())) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Price' field is invalid. /n Please enter a valid dollar amount.");
+            return false;
+        }
+        else if(!this.validInt(this.maxField.getText())) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Max' field is invalid. /n Please enter a non-decimal numeric value.");
+            return false;
+        }
+        else if(!this.validInt(this.minField.getText())) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Min' field is invalid. /n Please enter a non-decimal numeric value.");
+            return false;
+        }
+        else if(this.getStockInt() < 0) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Inv' field is invalid. /n Number cannot be negative.");
+            return false;
+        }
+        else if(this.getPriceDouble() < 0) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Price' field is invalid. /n Number cannot be negative.");
+            return false;
+        }
+        else if(this.getMaxInt() < 0) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Max' field is invalid. /n Number cannot be negative.");
+            return false;
+        }
+        else if(this.getMinInt() < 0) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value entered in the 'Min' field is invalid. /n Number cannot be negative.");
+            return false;
+        }
+        else if(this.getMaxInt() < this.getMinInt()) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                    "The value in 'Max' cannot be less than the value in 'Min'.");
+            return false;
+        }
+        else if((this.getStockInt() < this.getMinInt())||(this.getStockInt() > this.getMaxInt())) {
+            InventoryControlApplication.appModal.displayMessage("Invalid Entry", "" +
+                    "The value is 'Inv' cannot be less than 'Min' or less than 'Max'.");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }

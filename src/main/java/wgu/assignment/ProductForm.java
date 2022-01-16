@@ -13,7 +13,6 @@ public class ProductForm extends ItemForm {
         super("Add Product", "Add Product", "Price");
         this.product = new Product(this.getNewProductID(), "", 0, 0, 0, 0);
         this.setStage();
-        this.populateFields();
     }
 
     public ProductForm(int index, Product product) {
@@ -54,10 +53,12 @@ public class ProductForm extends ItemForm {
     }
 
     protected void saveButtonMethod() {
-        if(this.mode.equals("Add Product")) {
-            inventory.addProduct(this.product);
-        } else {
-            inventory.updateProduct(this.index, this.product);
+        if(this.validateBeforeSave()) {
+            if(this.mode.equals("Add Product")) {
+                inventory.addProduct(this.product);
+            } else {
+                inventory.updateProduct(this.index, this.product);
+            }
         }
     }
 
@@ -67,12 +68,12 @@ public class ProductForm extends ItemForm {
     }
 
     private int getNewProductID() {
-        if(inventory.getAllProducts().isEmpty()){
+        if(InventoryControlApplication.inventory.getAllProducts().isEmpty()){
             return 1;
         }
         else {
-            int listSize = inventory.getAllProducts().size();
-            int lastId = inventory.getAllProducts().get(listSize).getId();
+            int listSize = InventoryControlApplication.inventory.getAllProducts().size();
+            int lastId = InventoryControlApplication.inventory.getAllProducts().get(listSize - 1).getId();
             return lastId + 1;
         }
     }
@@ -85,5 +86,4 @@ public class ProductForm extends ItemForm {
         this.maxField.setText(Integer.toString(this.product.getMax()));
         this.minField.setText(Integer.toString(this.product.getMin()));
     }
-
 }

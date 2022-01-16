@@ -80,13 +80,15 @@ public class PartForm extends ItemForm {
     }
 
     protected void saveButtonMethod() {
-        if(this.mode.equals("Add Part")) {
-            InventoryControlApplication.inventory.addPart(this.createPart());
+        if(this.validateBeforeSave()) {
+            if(this.mode.equals("Add Part")) {
+                InventoryControlApplication.inventory.addPart(this.createPart());
+            }
+            else {
+                this.inventory.updatePart(this.index, this.createPart());
+            }
+            this.closeForm();
         }
-        else {
-            this.inventory.updatePart(this.index, this.createPart());
-        }
-        this.closeForm();
     }
 
     protected void cancelButtonMethod() {
