@@ -3,6 +3,8 @@ package wgu.assignment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Comparator;
+
 public class Inventory {
     private static ObservableList<Part> allParts = FXCollections.observableArrayList();
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
@@ -45,23 +47,46 @@ public class Inventory {
         return allProducts;
     }
 
-    public static void updatePart(int index, Part selectedPart) {
-        //Step 1 - Delete the old part
-        deletePart(lookupPart(selectedPart.getId()));
-
-        //Step 2 - Add the selected part
+    public static void updatePart(int oldIndex, Part selectedPart) {
+        //Add new part to the inventory
         addPart(selectedPart);
+        int newIndex = allParts.indexOf(selectedPart);
+
+        //Iterate through products and change out the part
+        for(Product product: allProducts) {
+            if(product.deleteAssociatedPart(allParts.get(oldIndex))){
+                product.addAssociatedPart(allParts.get(newIndex));
+            }
+        }
+
+        //Remove old part from inventory
+        deletePart(allParts.remove(oldIndex));
     }
 
     public static void updateProduct(int index, Product selectedProduct) {
-        //Step 1 - Delete the old part
-        deleteProduct(lookupProduct(selectedProduct.getId()));
+        //Select the existing product at index provided
+        Product existingProduct = getAllProducts().get(index);
 
-        //Step 2 - Add the selected product
-        addProduct(selectedProduct);
+        //Update values on existing product to the selectedProduct
+        existingProduct.setMax(selectedProduct.getMax());
+        existingProduct.setMin(selectedProduct.getMin());
+        existingProduct.setName(selectedProduct.getName());
+        existingProduct.setPrice(selectedProduct.getPrice());
+        existingProduct.setStock(selectedProduct.getStock());
     }
 
     public static boolean deletePart(Part selectedPart) {
+        //We need to check the "Product Inventory" first to ensure this part is not associated with any products.
+
+        //Loop through all the products
+        for(Product product: allProducts) {
+            for(Part part: product.getAllAssociatedParts()) {
+                if(part.equals(selectedPart)) {
+                    return false;
+                }
+            }
+        }
+
         return getAllParts().remove(selectedPart);
     }
 
@@ -70,10 +95,14 @@ public class Inventory {
     }
 
     public static ObservableList<Part> getAllParts() {
+        Comparator<Part> comparator = Comparator.comparingInt(Part::getId);
+        FXCollections.sort(allParts, comparator);
         return allParts;
     }
 
     public static ObservableList<Product> getAllProducts() {
+        Comparator<Product> comparator = Comparator.comparingInt(Product::getId);
+        FXCollections.sort(allProducts, comparator);
         return allProducts;
     }
 }

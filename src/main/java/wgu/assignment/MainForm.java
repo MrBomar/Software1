@@ -7,34 +7,31 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class MainForm {
-    private InventorySubForm partsSubForm = new InventorySubForm(new PartsTableView(InventoryControlApplication.inventory.getAllParts()), "Parts");
-    private InventorySubForm productsSubForm = new InventorySubForm(new ProductTableView(), "Products");
+    private final GridPane gridPane = new GridPane();
+    private final Scene scene = new Scene(this.gridPane);
 
     public MainForm() {
-
-    }
-
-    public Scene getScene() {
-        GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane);
-
         //Temporarily set grid to visible
-        gridPane.setGridLinesVisible(false);
-        gridPane.setMinWidth(950);
+        this.gridPane.setGridLinesVisible(false);
+        this.gridPane.setMinWidth(950);
 
         //Add title label
         Label titleLabel = new Label("Inventory Management System");
         titleLabel.setStyle("-fx-font-weight: bold");
-        gridPane.add(titleLabel, 0, 0, 2, 1);
+        this.gridPane.add(titleLabel, 0, 0, 2, 1);
 
         //Format the gridPane
-        gridPane.setPadding(new Insets(20, 0, 15, 20));
-        gridPane.setVgap(20);
-        gridPane.setHgap(10);
+        this.gridPane.setPadding(new Insets(20, 0, 15, 20));
+        this.gridPane.setVgap(20);
+        this.gridPane.setHgap(10);
 
         //Add the inventory panels
-        gridPane.add(partsSubForm.getView(), 1, 1);
-        gridPane.add(productsSubForm.getView(), 2,1);
+        final InventorySubForm partsSubForm = new InventorySubForm(
+                new PartsTableView(InventoryControlApplication.inventory.getAllParts()), "Part");
+        final InventorySubForm productsSubForm = new InventorySubForm(
+                new ProductTableView(InventoryControlApplication.inventory.getAllProducts()), "Product");
+        this.gridPane.add(partsSubForm.getView(), 1, 1);
+        this.gridPane.add(productsSubForm.getView(), 2,1);
 
         //Let's add a Pane to the grid pane?
         HBox exitBox = new HBox();
@@ -42,11 +39,13 @@ public class MainForm {
         spacer.setMinSize(350,1);
         Button exitButton = new Button("Exit");
         exitBox.getChildren().addAll(spacer, exitButton);
-        gridPane.add(exitBox, 2,2);
+        this.gridPane.add(exitBox, 2,2);
 
         //Exit method
         exitButton.setOnAction(e -> Platform.exit());
+    }
 
-        return scene;
+    public Scene getScene() {
+        return this.scene;
     }
 }

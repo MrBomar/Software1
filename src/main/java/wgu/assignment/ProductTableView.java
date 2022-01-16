@@ -1,16 +1,19 @@
 package wgu.assignment;
 
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProductTableView {
-    private static Inventory inventory = new Inventory();
+    private  ObservableList<Product> productsList;
     private TableView<Product> list;
 
-    public ProductTableView() {
+    public ProductTableView(ObservableList<Product> productsList) {
+        this.productsList = productsList;
         this.list = new TableView<>();
-        this.list.setItems(inventory.getAllProducts());
+        this.list.setItems(this.productsList);
         this.list.setMinWidth(410);
         this.list.setMaxWidth(410);
         this.list.setMinHeight(150);
@@ -34,5 +37,23 @@ public class ProductTableView {
 
     public TableView<Product> getProductsTableView() {
         return this.list;
+    }
+
+    public void filterList(String input) {
+        if(input.isEmpty() || (input ==" ")) {
+            this.list.setItems(productsList);
+        }
+        else {
+            FilteredList<Product> filtered = new FilteredList<>(productsList, p -> {
+                try {
+                    int productId = Integer.parseInt(input);
+                    return (productId == p.getId())?true:false;
+                }
+                catch (Exception e){
+                    return p.getName().toLowerCase().contains(input.toLowerCase());
+                }
+            });
+            this.list.setItems(filtered);
+        }
     }
 }

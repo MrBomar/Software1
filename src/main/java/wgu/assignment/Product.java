@@ -3,6 +3,8 @@ package wgu.assignment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Comparator;
+
 public class Product {
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
@@ -49,9 +51,13 @@ public class Product {
         this.associatedParts.add(part);
     }
 
-    public boolean deleteAssociatedPart(Part selectedAssociatedPart) { return this.associatedParts.remove(selectedAssociatedPart); }
+    public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
+        return this.associatedParts.remove(selectedAssociatedPart);
+    }
 
     public ObservableList<Part> getAllAssociatedParts() {
+        Comparator<Part> comparator = Comparator.comparingInt(Part::getId);
+        FXCollections.sort(this.associatedParts, comparator);
         return this.associatedParts;
     }
 }

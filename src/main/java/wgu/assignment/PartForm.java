@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 
 public class PartForm extends ItemForm {
     private Part part;
+    private int index;
 
     //Form elements
     private final Label partMiscLabel = new Label();
@@ -19,9 +20,10 @@ public class PartForm extends ItemForm {
         this.setStage();
     }
 
-    public PartForm(Part part) {
+    public PartForm(int index, Part part) {
         super("Modify Part", "Modify Part", "Price/Cost");
         this.part = part;
+        this.index = index;
         this.setStage();
     }
 
@@ -82,7 +84,7 @@ public class PartForm extends ItemForm {
             InventoryControlApplication.inventory.addPart(this.createPart());
         }
         else {
-            this.inventory.updatePart(inventory.getAllParts().indexOf(this.part), this.createPart());
+            this.inventory.updatePart(this.index, this.createPart());
         }
         this.closeForm();
     }
@@ -92,7 +94,7 @@ public class PartForm extends ItemForm {
     }
 
     private Part createPart() {
-        int partId = (this.mode.equals("Add Part"))? inventory.getAllParts().size() + 1 : this.part.getId();
+        int partId = (this.mode.equals("Add Part"))? this.getNewPartId() : this.part.getId();
         if(this.inHouseRadioButton.isSelected()) {
             return new InHouse(
                     partId,
@@ -120,5 +122,16 @@ public class PartForm extends ItemForm {
     protected void closeForm() {
         MainForm mainForm = new MainForm();
         stage.setScene(mainForm.getScene());
+    }
+
+    protected int getNewPartId() {
+        if(inventory.getAllParts().isEmpty()) {
+            return 1;
+        }
+        else {
+            int listSize = inventory.getAllParts().size();
+            int lastId = inventory.getAllParts().get(listSize - 1).getId();
+            return lastId + 1;
+        }
     }
 }
