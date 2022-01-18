@@ -7,7 +7,6 @@ public class ProductForm extends ItemForm {
     private int index;
     private InventorySubForm partsSubForm;
     private InventorySubForm associatedPartSubForm;
-    private String mode;
 
     public ProductForm() {
         super("Add Product", "Add Product", "Price");
@@ -59,6 +58,7 @@ public class ProductForm extends ItemForm {
             } else {
                 inventory.updateProduct(this.index, this.product);
             }
+            this.closeForm();
         }
     }
 
@@ -85,5 +85,15 @@ public class ProductForm extends ItemForm {
         this.priceField.setText(Double.toString(this.product.getPrice()));
         this.maxField.setText(Integer.toString(this.product.getMax()));
         this.minField.setText(Integer.toString(this.product.getMin()));
+    }
+
+    private boolean populateProduct() {
+        //Data has already been validated
+        this.product.setName(this.nameField.getText());
+        this.product.setMax(this.getMaxInt());
+        this.product.setMin(this.getMinInt());
+        this.product.setStock(this.getStockInt());
+        this.product.setPrice(this.getPriceDouble());
+        //FIXME - Need to save associated parts to the product.
     }
 }

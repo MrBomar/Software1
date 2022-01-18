@@ -14,6 +14,7 @@ public class Inventory {
     }
 
     public static void addProduct(Product newProduct) {
+        System.out.println("Inventory.addProduct()");
         allProducts.add(newProduct);
     }
 

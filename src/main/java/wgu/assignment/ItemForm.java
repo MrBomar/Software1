@@ -130,19 +130,19 @@ public abstract class ItemForm {
         }
     }
 
-    private int getStockInt() {
+    protected int getStockInt() {
         return Integer.parseInt(this.stockField.getText());
     }
 
-    private double getPriceDouble() {
+    protected double getPriceDouble() {
         return Double.parseDouble(this.priceField.getText());
     }
 
-    private int getMaxInt() {
+    protected int getMaxInt() {
         return Integer.parseInt(this.maxField.getText());
     }
 
-    private int getMinInt() {
+    protected int getMinInt() {
         return Integer.parseInt(this.minField.getText());
     }
 
