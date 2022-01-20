@@ -26,10 +26,10 @@ public class MainForm {
         this.gridPane.setHgap(10);
 
         //Add the inventory panels
-        final InventorySubForm partsSubForm = new InventorySubForm(
-                new PartsTableView(InventoryControlApplication.inventory.getAllParts()), "Part");
-        final InventorySubForm productsSubForm = new InventorySubForm(
-                new ProductTableView(InventoryControlApplication.inventory.getAllProducts()), "Product");
+        final PartsInventorySubForm partsSubForm = new PartsInventorySubForm(
+                Inventory.getAllParts()
+        );
+        final ProductsInventorySubForm productsSubForm = new ProductsInventorySubForm();
         this.gridPane.add(partsSubForm.getView(), 1, 1);
         this.gridPane.add(productsSubForm.getView(), 2,1);
 

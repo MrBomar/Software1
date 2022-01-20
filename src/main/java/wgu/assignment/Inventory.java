@@ -6,15 +6,14 @@ import javafx.collections.ObservableList;
 import java.util.Comparator;
 
 public class Inventory {
-    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
-    private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
+    private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     public static void addPart(Part newPart) {
         allParts.add(newPart);
     }
 
     public static void addProduct(Product newProduct) {
-        System.out.println("Inventory.addProduct()");
         allProducts.add(newProduct);
     }
 
@@ -23,7 +22,7 @@ public class Inventory {
         for (int i = 0; i < allParts.size(); i++) {
             if(partId == allParts.get(i).getId()) {
                 index = i;
-            };
+            }
         }
         return allParts.get(index);
     }
@@ -65,15 +64,9 @@ public class Inventory {
     }
 
     public static void updateProduct(int index, Product selectedProduct) {
-        //Select the existing product at index provided
-        Product existingProduct = getAllProducts().get(index);
-
-        //Update values on existing product to the selectedProduct
-        existingProduct.setMax(selectedProduct.getMax());
-        existingProduct.setMin(selectedProduct.getMin());
-        existingProduct.setName(selectedProduct.getName());
-        existingProduct.setPrice(selectedProduct.getPrice());
-        existingProduct.setStock(selectedProduct.getStock());
+        //Delete the old entry and replace it with the selectedProduct
+        allProducts.remove(index);
+        addProduct(selectedProduct);
     }
 
     public static boolean deletePart(Part selectedPart) {

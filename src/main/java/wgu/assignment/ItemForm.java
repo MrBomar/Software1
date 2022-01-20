@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.Scene;
 
 public abstract class ItemForm {
-    protected static Inventory inventory = InventoryControlApplication.inventory;
     protected static Stage stage = InventoryControlApplication.stage;
     protected String mode;
     protected GridPane gridPane = new GridPane();
@@ -101,18 +100,13 @@ public abstract class ItemForm {
         this.gridForm.add(this.cancelButton, 3, 6);
     }
 
-    protected void idFieldClicked() {
-        Modal modal = new Modal();
-        modal.displayMessage("Modification Denied", "The part ID is auto-assigned and cannot be modified by the user.");
-    }
-
     /*
     Below are the user input validation methods
      */
 
-    private boolean validInt(String string) {
+    protected boolean validInt(String string) {
         try {
-            int test = Integer.parseInt(string);
+            Integer.parseInt(string);
             return true;
         }
         catch (Exception e) {
@@ -122,7 +116,7 @@ public abstract class ItemForm {
 
     private boolean validDouble(String string) {
         try {
-            double test = Double.parseDouble(string);
+            Double.parseDouble(string);
             return true;
         }
         catch (Exception e) {

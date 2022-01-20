@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import java.util.Comparator;
 
 public class Product {
-    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private final ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;

@@ -3,21 +3,21 @@ package wgu.assignment;
 import javafx.scene.layout.*;
 
 public class ProductForm extends ItemForm {
-    private Product product = null;
+    private Product newProduct;
+    private Product oldProduct = null;
     private int index;
-    private InventorySubForm partsSubForm;
-    private InventorySubForm associatedPartSubForm;
 
     public ProductForm() {
         super("Add Product", "Add Product", "Price");
-        this.product = new Product(this.getNewProductID(), "", 0, 0, 0, 0);
+        this.newProduct = new Product(this.getNewProductID(), "", 0, 0, 0, 0);
         this.setStage();
     }
 
     public ProductForm(int index, Product product) {
         super("Modify Product", "Modify Product", "Price");
+        this.newProduct = new Product(product.getId(), "", 0, 0, 0, 0);
         this.index = index;
-        this.product = product;
+        this.oldProduct = product;
         this.setStage();
         this.populateFields();
     }
@@ -26,12 +26,15 @@ public class ProductForm extends ItemForm {
         this.pane.setMaxHeight(580);
 
         //Instantiate SubForms
-        partsSubForm = new InventorySubForm(
-                new PartsTableView(InventoryControlApplication.inventory.getAllParts()),
-                "Available Part"
+        InventorySubForm partsSubForm = new PartsInventorySubForm(
+                Inventory.getAllParts(),
+                this.newProduct,
+                "All Part"
         );
-        associatedPartSubForm = new InventorySubForm(
-                new PartsTableView(product.getAllAssociatedParts()),
+
+        InventorySubForm associatedPartSubForm = new PartsInventorySubForm(
+                this.newProduct.getAllAssociatedParts(),
+                this.newProduct,
                 "Associated Part"
         );
 
@@ -53,47 +56,55 @@ public class ProductForm extends ItemForm {
 
     protected void saveButtonMethod() {
         if(this.validateBeforeSave()) {
+            this.updateProductInfo();
             if(this.mode.equals("Add Product")) {
-                inventory.addProduct(this.product);
+                Inventory.addProduct(this.newProduct);
             } else {
-                inventory.updateProduct(this.index, this.product);
+                Inventory.updateProduct(this.index, this.newProduct);
             }
             this.closeForm();
         }
     }
 
     protected void cancelButtonMethod() {
-        //FIXME - This method needs to undo any changes made to the product then close out.
         InventoryControlApplication.stage.setScene(InventoryControlApplication.mainForm.getScene());
     }
 
     private int getNewProductID() {
-        if(InventoryControlApplication.inventory.getAllProducts().isEmpty()){
+        if(Inventory.getAllProducts().isEmpty()){
             return 1;
         }
         else {
-            int listSize = InventoryControlApplication.inventory.getAllProducts().size();
-            int lastId = InventoryControlApplication.inventory.getAllProducts().get(listSize - 1).getId();
-            return lastId + 1;
+            int listSize = Inventory.getAllProducts().size();
+            int lastId = Inventory.getAllProducts().get(listSize - 1).getId();
+            int newID = lastId + 1;
+            System.out.println(newID);
+            return newID;
         }
     }
 
     private void populateFields() {
-        this.idField.setText(Integer.toString(this.product.getId()));
-        this.nameField.setText(this.product.getName());
-        this.stockField.setText(Integer.toString(this.product.getStock()));
-        this.priceField.setText(Double.toString(this.product.getPrice()));
-        this.maxField.setText(Integer.toString(this.product.getMax()));
-        this.minField.setText(Integer.toString(this.product.getMin()));
+        this.idField.setText(Integer.toString(this.oldProduct.getId()));
+        this.nameField.setText(this.oldProduct.getName());
+        this.stockField.setText(Integer.toString(this.oldProduct.getStock()));
+        this.priceField.setText(Double.toString(this.oldProduct.getPrice()));
+        this.maxField.setText(Integer.toString(this.oldProduct.getMax()));
+        this.minField.setText(Integer.toString(this.oldProduct.getMin()));
+
+        //Copy associated parts from oldProduct to newProduct
+        for(Part part: this.oldProduct.getAllAssociatedParts()) {
+            this.newProduct.addAssociatedPart(part);
+        }
     }
 
-    private boolean populateProduct() {
-        //Data has already been validated
-        this.product.setName(this.nameField.getText());
-        this.product.setMax(this.getMaxInt());
-        this.product.setMin(this.getMinInt());
-        this.product.setStock(this.getStockInt());
-        this.product.setPrice(this.getPriceDouble());
-        //FIXME - Need to save associated parts to the product.
+    private void updateProductInfo() {
+        if(this.validateBeforeSave()) {
+            this.newProduct.setStock(this.getStockInt());
+            this.newProduct.setPrice(this.getPriceDouble());
+            this.newProduct.setName(this.nameField.getText());
+            this.newProduct.setMin(this.getMinInt());
+            this.newProduct.setMax(this.getMaxInt());
+        }
     }
+
 }

@@ -1,7 +1,5 @@
 package wgu.assignment;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.*;
 
 public class PartForm extends ItemForm {
@@ -37,10 +35,16 @@ public class PartForm extends ItemForm {
         this.gridPane.add(this.outsourcedRadioButton, 2, 0);
 
         //Add listeners to the radio button group
-        this.partTypeToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
-                partMiscLabel.setText((t1 == inHouseRadioButton)? "Machine ID" : "Company Name");
+        this.partTypeToggleGroup.selectedToggleProperty().addListener((observableValue, toggle, t1) -> {
+            partMiscLabel.setText((t1 == inHouseRadioButton)? "Machine ID" : "Company Name");
+            if(part instanceof InHouse && t1 == inHouseRadioButton) {
+                InHouse tempPart = (InHouse) part;
+                partMiscField.setText("" + tempPart.getMachineId());
+            } else if(part instanceof Outsourced && t1 == outsourcedRadioButton) {
+                Outsourced tempPart = (Outsourced) part;
+                partMiscField.setText(tempPart.getCompanyName());
+            } else {
+                partMiscField.setText("");
             }
         });
 
@@ -80,12 +84,12 @@ public class PartForm extends ItemForm {
     }
 
     protected void saveButtonMethod() {
-        if(this.validateBeforeSave()) {
+        if(this.validatePartForm()) {
             if(this.mode.equals("Add Part")) {
-                InventoryControlApplication.inventory.addPart(this.createPart());
+                Inventory.addPart(this.createPart());
             }
             else {
-                this.inventory.updatePart(this.index, this.createPart());
+                Inventory.updatePart(this.index, this.createPart());
             }
             this.closeForm();
         }
@@ -101,10 +105,10 @@ public class PartForm extends ItemForm {
             return new InHouse(
                     partId,
                     this.nameField.getText(),
-                    Double.parseDouble(this.priceField.getText()),
-                    Integer.parseInt(this.stockField.getText()),
-                    Integer.parseInt(this.minField.getText()),
-                    Integer.parseInt(this.maxField.getText()),
+                    this.getPriceDouble(),
+                    this.getStockInt(),
+                    this.getMinInt(),
+                    this.getMaxInt(),
                     Integer.parseInt(this.partMiscField.getText())
             );
         }
@@ -127,13 +131,34 @@ public class PartForm extends ItemForm {
     }
 
     protected int getNewPartId() {
-        if(inventory.getAllParts().isEmpty()) {
+        if(Inventory.getAllParts().isEmpty()) {
             return 1;
         }
         else {
-            int listSize = inventory.getAllParts().size();
-            int lastId = inventory.getAllParts().get(listSize - 1).getId();
+            int listSize = Inventory.getAllParts().size();
+            int lastId = Inventory.getAllParts().get(listSize - 1).getId();
             return lastId + 1;
+        }
+    }
+
+    private boolean validatePartForm() {
+        if(validateBeforeSave()) { //Basic validation passes
+            if(this.inHouseRadioButton.isSelected()) {
+                if(this.validInt(this.partMiscField.getText())) {
+                   return true;
+                }
+                else {
+                    InventoryControlApplication.appModal.displayMessage("Invalid Entry",
+                            "The value entered in the 'Machine ID' field is invalid. Please enter an non-decimal numeric value.");
+                    return false;
+                }
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
         }
     }
 }
