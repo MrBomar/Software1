@@ -11,13 +11,22 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import static wgu.assignment.InventoryControlApplication.*;
-
+/**
+ * This class renders a JavaFX SubForm view with an embedded TableView view.
+ *
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 public class PartsInventorySubForm extends InventorySubForm {
+    /** A blank parts list */
     private final TableView<Part> partsTableView = new TableView<>();
+    /***/
     private ObservableList<Part> origList;
+    /***/
     private Product product;
 
+    /***/
     PartsInventorySubForm(ObservableList<Part> partsList) {
         //Default view
         super("Part");
@@ -32,6 +41,7 @@ public class PartsInventorySubForm extends InventorySubForm {
         gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
     }
 
+    /***/
     PartsInventorySubForm(ObservableList<Part> list, Product product, String type) {
         super(type);
         this.setTableView(list);
@@ -44,24 +54,27 @@ public class PartsInventorySubForm extends InventorySubForm {
         }
     }
 
+    /***/
     protected void appendRemoveButton(int col, int row, int cSpan, int rSpan) {
         Button btn = new Button("Remove Associated Part");
         btn.setOnAction(e -> onRemoveButtonClick());
         this.gridPane.add(btn, col, row, cSpan, rSpan);
     }
 
+    /***/
     protected boolean checkSelection() {
         if(this.partsTableView.getItems().isEmpty()) {
-            appModal.displayMessage("Empty List", "There are no parts. Consider adding a part.");
+            new Modal("Empty List", "There are no parts. Consider adding a part.");
             return false;
         }
         else if(this.partsTableView.getSelectionModel().isEmpty()) {
-            appModal.displayMessage("Missing Selection", "Please select a part.");
+            new Modal("Missing Selection", "Please select a part.");
             return false;
         }
         return true;
     }
 
+    /***/
     protected void setTableView(ObservableList<Part> list) {
         this.partsTableView.setItems(list);
         this.partsTableView.setMinWidth(410);
@@ -86,6 +99,7 @@ public class PartsInventorySubForm extends InventorySubForm {
         this.gridPane.add(this.partsTableView, 0, 1, 5, 1);
     }
 
+    /***/
     protected void onAddButtonClick() {
         if(this.type.equals("All Part")) {
             if(this.checkSelection()) {
@@ -93,40 +107,44 @@ public class PartsInventorySubForm extends InventorySubForm {
             }
         }
         else {
-            stage.setScene(new PartForm().getScene());
-            stage.show();
+            InventoryControlApplication.changeView(Views.PART);
         }
     }
 
+    /***/
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
             if(!Inventory.deletePart(this.partsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
-                appModal.displayMessage("Deletion Error", "Unable to delete part. Check to ensure the part is not associated with any products.");
+                new Modal("Deletion Error", "Unable to delete part. Check to ensure the part is not associated with any products.");
             }
         }
     }
 
+    /***/
     protected void onModifyButtonClick() {
         if(this.checkSelection()) {
             //Open the part form and pass the selected part
             Part selectedItem = this.partsTableView.getSelectionModel().getSelectedItem();
             int selectedItemIndex = Inventory.getAllParts().indexOf(selectedItem);
-            stage.setScene(new PartForm(selectedItemIndex, selectedItem).getScene());
+            InventoryControlApplication.changeView(selectedItemIndex, selectedItem);
         }
     }
 
+    /***/
     private void onRemoveButtonClick() {
         if(this.checkSelection()) {
             this.product.deleteAssociatedPart(this.partsTableView.getSelectionModel().getSelectedItem());
         }
     }
 
+    /***/
     protected void onSearchBoxEntered() {
         if(this.partsTableView.getItems().isEmpty()) {
-            InventoryControlApplication.appModal.displayMessage("Empty List", "There are no parts in the list.");
+            new Modal("Empty List", "There are no parts in the list.");
         }
     }
 
+    /***/
     protected void onSearchBoxInputChange(Event event) {
         String input = ((TextField) event.getTarget()).getText();
 

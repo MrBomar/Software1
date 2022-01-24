@@ -10,39 +10,50 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * This class creates and renders a JavaFX modal to display important messages.
+ *
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 public class Modal {
-    private final Stage modalStage = new Stage();
-    private final GridPane gridPane = new GridPane();
-    private final Label message = new Label();
-    private final Button okButton = new Button("OK");
 
-    public Modal() {
+    /**
+     * This constructor will create and render a message modal.
+     * @param title The title to be displayed at the top of the modal.
+     * @param message The message to be displayed in the body of the modal.
+     */
+    public Modal(String title, String message) {
+        final Stage modalStage = new Stage();
+        final GridPane gridPane = new GridPane();
+        final Label messageLabel = new Label();
+        final Button okButton = new Button("OK");
+
+        modalStage.setTitle(title);
+        messageLabel.setText(message);
+
         //Stage properties
-        this.modalStage.initModality(Modality.APPLICATION_MODAL);
-        this.modalStage.initStyle(StageStyle.UTILITY);
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+        modalStage.initStyle(StageStyle.UTILITY);
 
         //GridPane and properties
-        this.gridPane.setPadding(new Insets(20,20,20,20));
-        this.gridPane.setVgap(10);
-        this.gridPane.setGridLinesVisible(false);
+        gridPane.setPadding(new Insets(20,20,20,20));
+        gridPane.setVgap(10);
+        gridPane.setGridLinesVisible(false);
 
         //Add label
-        this.gridPane.add(this.message,0,0, 1, 1);
+        gridPane.add(messageLabel,0,0, 1, 1);
 
         //Add buttons
-        this.gridPane.add(this.okButton, 0, 1);
-        GridPane.setHalignment(this.okButton, HPos.CENTER);
+        gridPane.add(okButton, 0, 1);
+        GridPane.setHalignment(okButton, HPos.CENTER);
 
         //Assigning okButton method
-        this.okButton.setOnMouseClicked(e -> modalStage.hide());
+        okButton.setOnMouseClicked(e -> modalStage.hide());
 
         //Create Scene and add to Stage
-        this.modalStage.setScene(new Scene(this.gridPane));
-    }
-
-    public void displayMessage(String title, String message) {
-        this.modalStage.setTitle(title);
-        this.message.setText(message);
-        this.modalStage.show();
+        modalStage.setScene(new Scene(gridPane));
+        modalStage.show();
     }
 }

@@ -1,3 +1,10 @@
+/**
+ *
+ *
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 package wgu.assignment;
 
 import javafx.collections.FXCollections;

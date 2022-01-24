@@ -10,8 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import static wgu.assignment.InventoryControlApplication.*;
-
+/**
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 public class ProductsInventorySubForm extends InventorySubForm {
     private final TableView<Product> productsTableView = new TableView<>();
 
@@ -31,11 +34,11 @@ public class ProductsInventorySubForm extends InventorySubForm {
 
     protected boolean checkSelection() {
         if(this.productsTableView.getItems().isEmpty()) {
-            appModal.displayMessage("Empty List", "There are no products. Consider adding a product.");
+            new Modal("Empty List", "There are no products. Consider adding a product.");
             return false;
         }
         else if(this.productsTableView.getSelectionModel().isEmpty()) {
-            appModal.displayMessage("Missing Selection", "Please select a product.");
+            new Modal("Missing Selection", "Please select a product.");
         }
         return true;
     }
@@ -65,14 +68,13 @@ public class ProductsInventorySubForm extends InventorySubForm {
     }
 
     protected void onAddButtonClick() {
-        stage.setScene(new ProductForm().getScene());
-        stage.show();
+        InventoryControlApplication.changeView(Views.PRODUCT);
     }
 
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
             if(!Inventory.deleteProduct(this.productsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
-                appModal.displayMessage("Deletion Error", "Unknown error, product could not be deleted.");
+                new Modal("Deletion Error", "Unknown error, product could not be deleted.");
             }
         }
     }
@@ -82,13 +84,13 @@ public class ProductsInventorySubForm extends InventorySubForm {
             //Open the product form and pass the selected product
             Product selectedItem = this.productsTableView.getSelectionModel().getSelectedItem();
             int selectedItemIndex = Inventory.getAllProducts().indexOf(selectedItem);
-            stage.setScene(new ProductForm(selectedItemIndex, selectedItem).getScene());
+            InventoryControlApplication.changeView(selectedItemIndex, selectedItem);
         }
     }
 
     protected void onSearchBoxEntered() {
         if (this.productsTableView.getItems().isEmpty()) {
-            InventoryControlApplication.appModal.displayMessage("Empty List", "There are no products in the list.");
+            new Modal("Empty List", "There are no products in the list.");
         }
     }
 

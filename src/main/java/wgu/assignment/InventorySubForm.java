@@ -8,11 +8,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 
+/**
+ * This is an abstract class for the embedded inventory forms on the MainForm.
+ *
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 public abstract class InventorySubForm {
+    /** The grid used to format the view. */
     protected GridPane gridPane = new GridPane();
+    /** The object which can be passed and appended to another view. */
     private final Group root = new Group(gridPane);
+    /** Indicates the type of form to render. */
     protected String type;
 
+    /**
+     * This method sets the basic formatting of the inventory sub-form view.
+     * @param type This string value sets the title of the view and can be used by child classes for function specific purposes.
+     */
     protected InventorySubForm(String type) {
         this.type = type;
         this.gridPane.setGridLinesVisible(false);
@@ -32,28 +46,51 @@ public abstract class InventorySubForm {
         gridPane.add(titleLabel, 1, 0);
     }
 
+    /**
+     * This method returns the rendered view of the inventory sub-form.
+     * @return Returns the entire view as a Group object so that it can be appended to another view.
+     */
     public Group getView() {
         return this.root;
     }
 
+    /**
+     * This method appends an "Add" button to the sub-form view.
+     * @param col The column value where the button should be placed.
+     * @param row The row value where the button should be placed.
+     */
     protected void appendAddButton(int col, int row) {
         Button btn = new Button("Add");
         btn.setOnAction(e -> onAddButtonClick());
         this.gridPane.add(btn, col, row);
     }
 
+    /**
+     * This method appends a "Delete" button to the sub-form view.
+     * @param col The column value where the button should be placed.
+     * @param row The row value where the button should be placed.
+     */
     protected void appendDeleteButton(int col, int row) {
         Button btn = new Button("Delete");
         btn.setOnAction(e -> onDeleteButtonClick());
         this.gridPane.add(btn, col, row);
     }
 
+    /**
+     * This method appends a "Modify" button to the sub-form view.
+     * @param col The column value where the button should be placed.
+     * @param row The row value where the button should be placed.
+     */
     protected void appendModifyButton(int col, int row) {
         Button btn = new Button("Modify");
         btn.setOnAction(e -> onModifyButtonClick());
         this.gridPane.add(btn, col, row);
     }
 
+    /**
+     * This method appends an input box onto the sub-form.
+     * @param type Specifies the type of item to search for (Part or Product).
+     */
     protected void appendSearchBox(String type) {
         //Add searchBox
         TextField searchBox = new TextField();
@@ -67,15 +104,24 @@ public abstract class InventorySubForm {
         this.gridPane.add(searchBox, 2,0, 3, 1);
     }
 
+    /**Abstract method to be executed when the "Add" button is clicked. */
     protected abstract void onAddButtonClick();
 
+    /**Abstract method to be executed when the "Delete" button is clicked. */
     protected abstract void onDeleteButtonClick();
 
+    /**Abstract method to be executed when the "Modify" button is clicked. */
     protected abstract void onModifyButtonClick();
 
+    /**Abstract method to be executed the user's cursor enters the search box. */
     protected abstract void onSearchBoxEntered();
 
+    /**
+     * Abstract method to be executed when the user changes the input of the search box.
+     * @param e The event triggered by the user action.
+     */
     protected abstract void onSearchBoxInputChange(Event e);
 
+    /**Abstract method used to verify that a selection has been made. */
     protected abstract boolean checkSelection();
 }
