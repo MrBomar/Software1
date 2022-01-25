@@ -11,14 +11,19 @@ import static wgu.assignment.ViewMode.*;
  * @since 2020-01-20
  */
 public class PartView extends ItemView {
+    /***/
     private Part part;
+    /***/
     private int index;
-
-    //Form elements
+    /***/
     private final Label partMiscLabel = new Label();
+    /***/
     private final TextField partMiscField = new TextField();
+    /***/
     private final ToggleGroup partTypeToggleGroup = new ToggleGroup();
+    /***/
     private final RadioButton inHouseRadioButton = new RadioButton("In-House");
+    /***/
     private final RadioButton outsourcedRadioButton = new RadioButton("Outsourced");
 
     public PartView() {

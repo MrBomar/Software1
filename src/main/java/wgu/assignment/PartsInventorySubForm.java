@@ -19,14 +19,17 @@ import javafx.scene.paint.Color;
  * @since 2020-01-20
  */
 public class PartsInventorySubForm extends InventorySubForm {
-    /** A blank parts list */
+    /** A blank parts list which store modifications until changes are committed. */
     private final TableView<Part> partsTableView = new TableView<>();
-    /***/
+    /** The referenced inventory list unaltered until a save has taken place */
     private ObservableList<Part> origList;
-    /***/
+    /** A reference to the product being edited. */
     private Product product;
 
-    /***/
+    /**
+     * Creates a subform view including a TableView.
+     * @param partsList A reference to the inventory to be displayed.
+     */
     PartsInventorySubForm(ObservableList<Part> partsList) {
         //Default view
         super("Part");
@@ -41,7 +44,12 @@ public class PartsInventorySubForm extends InventorySubForm {
         gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
     }
 
-    /***/
+    /**
+     * Creates a subform view including a TableView, specific to the associated part of a product.
+     * @param list The list of associated item from the product.
+     * @param product A reference to the product this list applies to.
+     * @param type Indicates the type of form to render.
+     */
     PartsInventorySubForm(ObservableList<Part> list, Product product, String type) {
         super(type);
         this.setTableView(list);
@@ -54,14 +62,24 @@ public class PartsInventorySubForm extends InventorySubForm {
         }
     }
 
-    /***/
+    /**
+     * Appends the "Remove" button to the SubForm view.
+     * @param col The column where the button should be located.
+     * @param row The row where the button should be located.
+     * @param cSpan The number of columns which the button should span.
+     * @param rSpan The number of rows which the button should span.
+     */
     protected void appendRemoveButton(int col, int row, int cSpan, int rSpan) {
         Button btn = new Button("Remove Associated Part");
         btn.setOnAction(e -> onRemoveButtonClick());
         this.gridPane.add(btn, col, row, cSpan, rSpan);
     }
 
-    /***/
+    /**
+     * This method verifies that the list isn't empty and that an item has been selected.
+     * If nothing is selected or if the list is empty a message is displayed.
+     * @return Method returns true is an item is selected.
+     */
     protected boolean checkSelection() {
         if(this.partsTableView.getItems().isEmpty()) {
             new Modal("Empty List", "There are no parts. Consider adding a part.");
@@ -74,7 +92,10 @@ public class PartsInventorySubForm extends InventorySubForm {
         return true;
     }
 
-    /***/
+    /**
+     * This method changes the data for the TableView to list provided.
+     * @param list The list to be reflected in the table view.
+     */
     protected void setTableView(ObservableList<Part> list) {
         this.partsTableView.setItems(list);
         this.partsTableView.setMinWidth(410);
@@ -99,7 +120,11 @@ public class PartsInventorySubForm extends InventorySubForm {
         this.gridPane.add(this.partsTableView, 0, 1, 5, 1);
     }
 
-    /***/
+    /**
+     * The method executed upon clicking the "Add" button.
+     * If the type == "All Part" then this button will add the selected part to the
+     * Product's list of associated parts.
+     */
     protected void onAddButtonClick() {
         if(this.type.equals("All Part")) {
             if(this.checkSelection()) {
@@ -111,7 +136,10 @@ public class PartsInventorySubForm extends InventorySubForm {
         }
     }
 
-    /***/
+    /**
+     * Deletes the part from the Part inventory.
+     * If the selected part cannot be deleted then an error message is displayed.
+     */
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
             if(!Inventory.deletePart(this.partsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
@@ -120,7 +148,7 @@ public class PartsInventorySubForm extends InventorySubForm {
         }
     }
 
-    /***/
+    /** Open's the Part editing form and loads the part information for modification. */
     protected void onModifyButtonClick() {
         if(this.checkSelection()) {
             //Open the part form and pass the selected part
@@ -130,21 +158,24 @@ public class PartsInventorySubForm extends InventorySubForm {
         }
     }
 
-    /***/
+    /** Removes the selected Part from the Product's associated Parts list. */
     private void onRemoveButtonClick() {
         if(this.checkSelection()) {
             this.product.deleteAssociatedPart(this.partsTableView.getSelectionModel().getSelectedItem());
         }
     }
 
-    /***/
+    /** Displays an error message if the Parts list is empty. */
     protected void onSearchBoxEntered() {
         if(this.partsTableView.getItems().isEmpty()) {
             new Modal("Empty List", "There are no parts in the list.");
         }
     }
 
-    /***/
+    /**
+     * This method takes the user input and updates the TableView to reflect the results.
+     * @param event Takes the vent trigger by the user changing the search box entry.
+     */
     protected void onSearchBoxInputChange(Event event) {
         String input = ((TextField) event.getTarget()).getText();
 
