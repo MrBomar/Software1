@@ -118,11 +118,16 @@ public abstract class ItemView {
         return this.scene;
     }
 
+    /** Abstract method sets the layout of the form. */
+    protected abstract void setStage();
+
     /** Abstract method executed when the "Save" button is clicked. */
     abstract protected void saveButtonMethod();
 
-    /** Abstract method executed when the "Cancel" button is clicked. */
-    abstract protected void cancelButtonMethod();
+    /** Closes the current view and displays the Main form, without committing any changes. */
+    protected void cancelButtonMethod() {
+        InventoryControlApplication.changeView(Views.MAIN);
+    }
 
     /** Changes the view to the MainForm. */
     protected void closeForm() {
@@ -138,10 +143,6 @@ public abstract class ItemView {
         this.gridForm.add(this.saveButton, 2, 6);
         this.gridForm.add(this.cancelButton, 3, 6);
     }
-
-    /**
-     * Below methods are part of the user input validation methods
-     */
 
     /**
      * Evaluates a string and returns true if it can be parsed as an integer.

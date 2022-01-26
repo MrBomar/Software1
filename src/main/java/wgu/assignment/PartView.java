@@ -11,26 +11,27 @@ import static wgu.assignment.ViewMode.*;
  * @since 2020-01-20
  */
 public class PartView extends ItemView {
-    /***/
     private Part part;
-    /***/
     private int index;
-    /***/
     private final Label partMiscLabel = new Label();
-    /***/
     private final TextField partMiscField = new TextField();
-    /***/
     private final ToggleGroup partTypeToggleGroup = new ToggleGroup();
-    /***/
     private final RadioButton inHouseRadioButton = new RadioButton("In-House");
-    /***/
     private final RadioButton outsourcedRadioButton = new RadioButton("Outsourced");
 
+    /**
+     * Creates a blank Part form to create a new Part.
+     */
     public PartView() {
         super(ADD_PART);
         this.setStage();
     }
 
+    /**
+     * Loads a Part form and the Part for modification.
+     * @param index The index of the Part as stored in inventory.
+     * @param part The reference to the Part in inventory.
+     */
     public PartView(int index, Part part) {
         super(MODIFY_PART);
         this.part = part;
@@ -38,7 +39,8 @@ public class PartView extends ItemView {
         this.setStage();
     }
 
-    private void setStage() {
+    /** Sets the layout of the Part view. */
+    protected void setStage() {
         //Assign radio button to toggle group
         this.inHouseRadioButton.setToggleGroup(this.partTypeToggleGroup);
         this.outsourcedRadioButton.setToggleGroup(this.partTypeToggleGroup);
@@ -96,6 +98,11 @@ public class PartView extends ItemView {
         }
     }
 
+    /**
+     * This method saves the data from the Part form to the Part instance, and closes the form.
+     * If this is a new part, this method will create a new Part populated with the data in the form.
+     * If this is an existing part, then the Part instance data will be updated.
+     */
     protected void saveButtonMethod() {
         if(this.validatePartForm()) {
             if(this.mode.equals("Add Part")) {
@@ -106,10 +113,6 @@ public class PartView extends ItemView {
             }
             this.closeForm();
         }
-    }
-
-    protected void cancelButtonMethod() {
-        this.closeForm();
     }
 
     private Part createPart() {
@@ -138,11 +141,7 @@ public class PartView extends ItemView {
         }
     }
 
-    protected void closeForm() {
-        InventoryControlApplication.changeView(Views.MAIN);
-    }
-
-    protected int getNewPartId() {
+    private int getNewPartId() {
         if(Inventory.getAllParts().isEmpty()) {
             return 1;
         }
@@ -153,6 +152,9 @@ public class PartView extends ItemView {
         }
     }
 
+    /**
+     *
+     */
     private boolean validatePartForm() {
         if(validateBeforeSave()) { //Basic validation passes
             if(this.inHouseRadioButton.isSelected()) {

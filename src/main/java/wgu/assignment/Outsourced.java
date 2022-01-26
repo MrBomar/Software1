@@ -8,7 +8,6 @@ package wgu.assignment;
  * @since 2020-01-20
  */
 public class Outsourced extends Part{
-    /** Stores the name of the company which this part is procured from.*/
     private String companyName;
 
     /**

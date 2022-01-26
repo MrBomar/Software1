@@ -18,7 +18,6 @@ import javafx.scene.layout.*;
 public abstract class InventorySubForm {
     /** The grid used to format the view. */
     protected GridPane gridPane = new GridPane();
-    /** The object which can be passed and appended to another view. */
     private final Group root = new Group(gridPane);
     /** Indicates the type of form to render. */
     protected String type;

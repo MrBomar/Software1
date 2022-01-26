@@ -13,12 +13,20 @@ public class ProductView extends ItemView {
     private Product oldProduct = null;
     private int index;
 
+    /**
+     * Creates a blank Product form to create a new Product.
+     */
     public ProductView() {
         super(ADD_PRODUCT);
         this.newProduct = new Product(this.getNewProductID(), "", 0, 0, 0, 0);
         this.setStage();
     }
 
+    /**
+     * Loads a Product form and the Product for modification.
+     * @param index The index of the Part as stored in inventory.
+     * @param product The reference to the Product in inventory.
+     */
     public ProductView(int index, Product product) {
         super(MODIFY_PRODUCT);
         this.newProduct = new Product(product.getId(), "", 0, 0, 0, 0);
@@ -28,7 +36,8 @@ public class ProductView extends ItemView {
         this.populateFields();
     }
 
-    private void setStage() {
+    /** Sets the layout of the Product view. */
+    protected void setStage() {
         this.pane.setMaxHeight(580);
 
         //Instantiate SubForms
@@ -60,6 +69,11 @@ public class ProductView extends ItemView {
         this.gridPane.add(this.cancelButton, 7,4,1, 1);
     }
 
+    /**
+     * This method saves the data from the Product form to the Product instance, and closes the form.
+     * If this is a new product, this method will create a new Product populated with the data in the form.
+     * If this is an existing product, then the Product instance data will be updated.
+     */
     protected void saveButtonMethod() {
         if(this.validateBeforeSave()) {
             this.updateProductInfo();
@@ -70,10 +84,6 @@ public class ProductView extends ItemView {
             }
             this.closeForm();
         }
-    }
-
-    protected void cancelButtonMethod() {
-        InventoryControlApplication.changeView(Views.MAIN);
     }
 
     private int getNewProductID() {

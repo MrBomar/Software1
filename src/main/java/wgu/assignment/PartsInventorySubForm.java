@@ -19,11 +19,8 @@ import javafx.scene.paint.Color;
  * @since 2020-01-20
  */
 public class PartsInventorySubForm extends InventorySubForm {
-    /** A blank parts list which store modifications until changes are committed. */
     private final TableView<Part> partsTableView = new TableView<>();
-    /** The referenced inventory list unaltered until a save has taken place */
     private ObservableList<Part> origList;
-    /** A reference to the product being edited. */
     private Product product;
 
     /**

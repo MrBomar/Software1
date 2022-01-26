@@ -14,9 +14,7 @@ import javafx.scene.layout.*;
  * @since 2020-01-20
  */
 public class MainView {
-    /** The grid used to format the view. */
     private final GridPane gridPane = new GridPane();
-    /** The completed view which can be rendered. */
     private final Scene scene = new Scene(this.gridPane);
 
     /** Instantiates the class and formats the basic form view. */

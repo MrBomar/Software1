@@ -13,9 +13,7 @@ import java.util.Comparator;
  * @since 2020-01-20
  */
 public class Inventory {
-    /** The Parts inventory. */
     private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
-    /** The Products inventory. */
     private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
     /**

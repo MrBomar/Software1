@@ -8,7 +8,6 @@ package wgu.assignment;
  * @since 2020-01-20
  */
 public class InHouse extends Part {
-    /** Stores the ID number of the machine on which this part is manufactured. */
     private int machineId;
 
     /**
