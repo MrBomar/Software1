@@ -11,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 /**
+ * Renders the products inventory sub form view.
+ *
  * @author Leslie Calvin Bomar 3rd
  * @version 1.0
  * @since 2020-01-20
@@ -18,20 +20,23 @@ import javafx.scene.paint.Color;
 public class ProductsInventorySubForm extends InventorySubForm {
     private final TableView<Product> productsTableView = new TableView<>();
 
-    //FIXME - Need to fix this so that the Products list is sorted at all times.
-
+    /** Creates an instance of the products inventory sub form. */
     ProductsInventorySubForm() {
         super("Product");
         this.setTableView(Inventory.getAllProducts());
 
-        this.appendAddButton(2, 2);
-        this.appendModifyButton(3,2);
-        this.appendDeleteButton(4,2);
+        this.appendAddButton(2);
+        this.appendModifyButton();
+        this.appendDeleteButton();
         this.appendSearchBox("Product");
 
         gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
     }
 
+    /**
+     * Verifies that a selection has been made, displays message if there is an empty list or no selection.
+     * @return Returns false if the list is empty or there is no selection, returns true if selection is made.
+     */
     protected boolean checkSelection() {
         if(this.productsTableView.getItems().isEmpty()) {
             new Modal("Empty List", "There are no products. Consider adding a product.");
@@ -43,7 +48,7 @@ public class ProductsInventorySubForm extends InventorySubForm {
         return true;
     }
 
-    protected void setTableView(ObservableList<Product> list) {
+    private void setTableView(ObservableList<Product> list) {
         this.productsTableView.setItems(list);
         this.productsTableView.setMinWidth(410);
         this.productsTableView.setMaxWidth(410);
@@ -63,14 +68,19 @@ public class ProductsInventorySubForm extends InventorySubForm {
         invLevel.setMinWidth(100);
 
         //Here we set the columns and add the tableView to the gridPane
-        this.productsTableView.getColumns().setAll(idCol, nameCol, invLevel, priceCol);
+        this.productsTableView.getColumns().add(idCol);
+        this.productsTableView.getColumns().add(nameCol);
+        this.productsTableView.getColumns().add(invLevel);
+        this.productsTableView.getColumns().add(priceCol);
         this.gridPane.add(this.productsTableView, 0, 1, 5, 1);
     }
 
+    /** Opens the ProductView in ADD_PRODUCT mode. */
     protected void onAddButtonClick() {
         InventoryControlApplication.changeView(Views.PRODUCT);
     }
 
+    /** Removes selected product from inventory, displays error message if product cannot be deleted. */
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
             if(!Inventory.deleteProduct(this.productsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
@@ -79,6 +89,7 @@ public class ProductsInventorySubForm extends InventorySubForm {
         }
     }
 
+    /** Opens the ProductView in MODIFY_PRODUCT mode. */
     protected void onModifyButtonClick() {
         if(this.checkSelection()) {
             //Open the product form and pass the selected product
@@ -88,12 +99,17 @@ public class ProductsInventorySubForm extends InventorySubForm {
         }
     }
 
+    /** Displays a message if there are no products to search. */
     protected void onSearchBoxEntered() {
         if (this.productsTableView.getItems().isEmpty()) {
             new Modal("Empty List", "There are no products in the list.");
         }
     }
 
+    /**
+     * Updates the list results based on search string.
+     * @param event The event triggered by the user changing the search box input.
+     */
     protected void onSearchBoxInputChange(Event event) {
         String input = ((TextField) event.getTarget()).getText();
 

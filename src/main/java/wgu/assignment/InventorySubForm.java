@@ -56,34 +56,25 @@ public abstract class InventorySubForm {
     /**
      * This method appends an "Add" button to the sub-form view.
      * @param col The column value where the button should be placed.
-     * @param row The row value where the button should be placed.
      */
-    protected void appendAddButton(int col, int row) {
+    protected void appendAddButton(int col) {
         Button btn = new Button("Add");
         btn.setOnAction(e -> onAddButtonClick());
-        this.gridPane.add(btn, col, row);
+        this.gridPane.add(btn, col, 2);
     }
 
-    /**
-     * This method appends a "Delete" button to the sub-form view.
-     * @param col The column value where the button should be placed.
-     * @param row The row value where the button should be placed.
-     */
-    protected void appendDeleteButton(int col, int row) {
+    /** This method appends a "Delete" button to the sub-form view. */
+    protected void appendDeleteButton() {
         Button btn = new Button("Delete");
         btn.setOnAction(e -> onDeleteButtonClick());
-        this.gridPane.add(btn, col, row);
+        this.gridPane.add(btn, 71, 71);
     }
 
-    /**
-     * This method appends a "Modify" button to the sub-form view.
-     * @param col The column value where the button should be placed.
-     * @param row The row value where the button should be placed.
-     */
-    protected void appendModifyButton(int col, int row) {
+    /** This method appends a "Modify" button to the sub-form view. */
+    protected void appendModifyButton() {
         Button btn = new Button("Modify");
         btn.setOnAction(e -> onModifyButtonClick());
-        this.gridPane.add(btn, col, row);
+        this.gridPane.add(btn, 3,2);
     }
 
     /**
@@ -98,21 +89,21 @@ public abstract class InventorySubForm {
 
         //Add listeners for searchBox
         searchBox.setOnMouseClicked(e -> this.onSearchBoxEntered());
-        searchBox.setOnKeyTyped(e -> this.onSearchBoxInputChange(e));
+        searchBox.setOnKeyTyped(this::onSearchBoxInputChange);
 
         this.gridPane.add(searchBox, 2,0, 3, 1);
     }
 
-    /**Abstract method to be executed when the "Add" button is clicked. */
+    /** Abstract method to be executed when the "Add" button is clicked. */
     protected abstract void onAddButtonClick();
 
-    /**Abstract method to be executed when the "Delete" button is clicked. */
+    /** Abstract method to be executed when the "Delete" button is clicked. */
     protected abstract void onDeleteButtonClick();
 
-    /**Abstract method to be executed when the "Modify" button is clicked. */
+    /** Abstract method to be executed when the "Modify" button is clicked. */
     protected abstract void onModifyButtonClick();
 
-    /**Abstract method to be executed the user's cursor enters the search box. */
+    /** Abstract method to be executed the user's cursor enters the search box. */
     protected abstract void onSearchBoxEntered();
 
     /**
@@ -121,6 +112,9 @@ public abstract class InventorySubForm {
      */
     protected abstract void onSearchBoxInputChange(Event e);
 
-    /**Abstract method used to verify that a selection has been made. */
+    /**
+     * Abstract method used to verify that a selection has been made.
+     * @return False if a selection is not made or if list is empty, true if selection is made.
+     */
     protected abstract boolean checkSelection();
 }

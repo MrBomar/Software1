@@ -1,24 +1,24 @@
-/**
- * @author Leslie Calvin Bomar 3rd
- * @version 1.0
- * @since 2020-01-20
- */
 package wgu.assignment;
 
 import javafx.scene.layout.*;
 import static wgu.assignment.ViewMode.*;
 
+/**
+ * Renders the product view for product addition or modification.
+ *
+ * @author Leslie Calvin Bomar 3rd
+ * @version 1.0
+ * @since 2020-01-20
+ */
 public class ProductView extends ItemView {
-    private Product newProduct;
+    private final Product newProduct = new Product(0, "", 0, 0, 0, 0);
     private Product oldProduct = null;
     private int index;
 
-    /**
-     * Creates a blank Product form to create a new Product.
-     */
+    /** Creates a blank Product form used to create a new Product. */
     public ProductView() {
         super(ADD_PRODUCT);
-        this.newProduct = new Product(this.getNewProductID(), "", 0, 0, 0, 0);
+        this.newProduct.setId(this.getNewProductID());
         this.setStage();
     }
 
@@ -29,7 +29,12 @@ public class ProductView extends ItemView {
      */
     public ProductView(int index, Product product) {
         super(MODIFY_PRODUCT);
-        this.newProduct = new Product(product.getId(), "", 0, 0, 0, 0);
+        this.newProduct.setId(product.getId());
+        this.newProduct.setName(product.getName());
+        this.newProduct.setPrice(product.getPrice());
+        this.newProduct.setStock(product.getStock());
+        this.newProduct.setMin(product.getMin());
+        this.newProduct.setMax(product.getMax());
         this.index = index;
         this.oldProduct = product;
         this.setStage();
@@ -77,7 +82,7 @@ public class ProductView extends ItemView {
     protected void saveButtonMethod() {
         if(this.validateBeforeSave()) {
             this.updateProductInfo();
-            if(this.mode.equals("Add Product")) {
+            if(this.mode.equals(ADD_PRODUCT)) {
                 Inventory.addProduct(this.newProduct);
             } else {
                 Inventory.updateProduct(this.index, this.newProduct);

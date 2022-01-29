@@ -15,15 +15,14 @@ public class InventoryControlApplication extends Application {
     /** The initial stage on which the views are rendered. */
     public static Stage stage;
 
-    @Override
     /**
      * This method sets the initial stage/view of the application.
-     * @param stage Supplied by the JavaFX framework.
+     * @param appStage Supplied by the JavaFX framework.
      */
-    public void start(Stage stage) {
-        this.stage = stage;
-
-        this.changeView(MAIN);
+    @Override
+    public void start(Stage appStage) {
+        stage = appStage;
+        changeView(MAIN);
     }
 
     /**
@@ -93,7 +92,7 @@ public class InventoryControlApplication extends Application {
      */
     public static void main(String[] args) {
         if(args.length > 0) {
-            if(args[0].equals("test")) { addTestInventory();};
+            if(args[0].equals("test")) { addTestInventory();}
         }
         launch(args);
     }

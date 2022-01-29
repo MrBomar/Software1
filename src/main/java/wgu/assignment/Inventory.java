@@ -33,7 +33,7 @@ public class Inventory {
     }
 
     /**
-     * Will return a part with the matching ID number.
+     * Will return a Part with the matching ID number.
      * Only use this method with a validated Part ID, a value not in inventory will result in an error.
      * @param partId Takes an integer value representing a part ID.
      * @return Returns an instance of Part that the provided partId references.
@@ -70,9 +70,7 @@ public class Inventory {
      * @return A filtered ObservableList containing Parts whose name contain the provided partName.
      */
     public static ObservableList<Part> lookupPart(String partName) {
-        return new FilteredList<>(allParts, p -> {
-            return p.getName().toLowerCase().contains(partName.toLowerCase());
-        });
+        return new FilteredList<>(allParts, p -> p.getName().toLowerCase().contains(partName.toLowerCase()));
     }
 
     /**
@@ -81,9 +79,7 @@ public class Inventory {
      * @return A filtered ObservableList containing Products whose name contains the provided productName.
      */
     public static ObservableList<Product> lookupProduct(String productName) {
-        return new FilteredList<>(allProducts, p -> {
-            return p.getName().toLowerCase().contains(productName.toLowerCase());
-        });
+        return new FilteredList<>(allProducts, p -> p.getName().toLowerCase().contains(productName.toLowerCase()));
     }
 
     /**
@@ -149,7 +145,7 @@ public class Inventory {
 
     /**
      * Returns a reference to the allParts ObservableList.
-     * @return An ObservableList of all Parts in inventory.
+     * @return A sorted ObservableList of all Parts in inventory.
      */
     public static ObservableList<Part> getAllParts() {
         Comparator<Part> comparator = Comparator.comparingInt(Part::getId);
@@ -159,7 +155,7 @@ public class Inventory {
 
     /**
      * Return a reference to the allProducts ObservableList.
-     * @return An ObservableList of all Parts in inventory.
+     * @return A sorted ObservableList of all Parts in inventory.
      */
     public static ObservableList<Product> getAllProducts() {
         Comparator<Product> comparator = Comparator.comparingInt(Product::getId);

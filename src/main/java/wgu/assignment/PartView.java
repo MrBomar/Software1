@@ -19,9 +19,7 @@ public class PartView extends ItemView {
     private final RadioButton inHouseRadioButton = new RadioButton("In-House");
     private final RadioButton outsourcedRadioButton = new RadioButton("Outsourced");
 
-    /**
-     * Creates a blank Part form to create a new Part.
-     */
+    /** Creates a blank Part form to create a new Part. */
     public PartView() {
         super(ADD_PART);
         this.setStage();
@@ -105,7 +103,7 @@ public class PartView extends ItemView {
      */
     protected void saveButtonMethod() {
         if(this.validatePartForm()) {
-            if(this.mode.equals("Add Part")) {
+            if(this.mode.equals(ADD_PART)) {
                 Inventory.addPart(this.createPart());
             }
             else {
@@ -116,7 +114,7 @@ public class PartView extends ItemView {
     }
 
     private Part createPart() {
-        int partId = (this.mode.equals("Add Part"))? this.getNewPartId() : this.part.getId();
+        int partId = (this.mode.equals(ADD_PART))? this.getNewPartId() : this.part.getId();
         if(this.inHouseRadioButton.isSelected()) {
             return new InHouse(
                     partId,
@@ -152,9 +150,6 @@ public class PartView extends ItemView {
         }
     }
 
-    /**
-     *
-     */
     private boolean validatePartForm() {
         if(validateBeforeSave()) { //Basic validation passes
             if(this.inHouseRadioButton.isSelected()) {

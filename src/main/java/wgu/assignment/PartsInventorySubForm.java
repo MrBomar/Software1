@@ -33,9 +33,9 @@ public class PartsInventorySubForm extends InventorySubForm {
         this.origList = partsList;
         this.setTableView(partsList);
 
-        this.appendAddButton(2, 2);
-        this.appendModifyButton(3,2);
-        this.appendDeleteButton(4,2);
+        this.appendAddButton(2);
+        this.appendModifyButton();
+        this.appendDeleteButton();
         this.appendSearchBox(this.type);
 
         gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
@@ -53,23 +53,19 @@ public class PartsInventorySubForm extends InventorySubForm {
         this.product = product;
 
         if(this.type.equals("Associated Part")) {
-            this.appendRemoveButton(2,2,3,1);
+            this.appendRemoveButton();
         } else if(this.type.equals("All Part")) {
-            this.appendAddButton(4, 2);
+            this.appendAddButton(4);
         }
     }
 
     /**
      * Appends the "Remove" button to the SubForm view.
-     * @param col The column where the button should be located.
-     * @param row The row where the button should be located.
-     * @param cSpan The number of columns which the button should span.
-     * @param rSpan The number of rows which the button should span.
      */
-    protected void appendRemoveButton(int col, int row, int cSpan, int rSpan) {
+    protected void appendRemoveButton() {
         Button btn = new Button("Remove Associated Part");
         btn.setOnAction(e -> onRemoveButtonClick());
-        this.gridPane.add(btn, col, row, cSpan, rSpan);
+        this.gridPane.add(btn, 2, 2, 3, 1);
     }
 
     /**
@@ -89,11 +85,7 @@ public class PartsInventorySubForm extends InventorySubForm {
         return true;
     }
 
-    /**
-     * This method changes the data for the TableView to list provided.
-     * @param list The list to be reflected in the table view.
-     */
-    protected void setTableView(ObservableList<Part> list) {
+    private void setTableView(ObservableList<Part> list) {
         this.partsTableView.setItems(list);
         this.partsTableView.setMinWidth(410);
         this.partsTableView.setMaxWidth(410);
@@ -113,7 +105,10 @@ public class PartsInventorySubForm extends InventorySubForm {
         invLevel.setMinWidth(100);
 
         //Here we set the columns and add the tableView to the gridPane
-        this.partsTableView.getColumns().setAll(idCol, nameCol, invLevel, priceCol);
+        this.partsTableView.getColumns().add(idCol);
+        this.partsTableView.getColumns().add(nameCol);
+        this.partsTableView.getColumns().add(invLevel);
+        this.partsTableView.getColumns().add(priceCol);
         this.gridPane.add(this.partsTableView, 0, 1, 5, 1);
     }
 
