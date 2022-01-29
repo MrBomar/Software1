@@ -67,7 +67,7 @@ public abstract class InventorySubForm {
     protected void appendDeleteButton() {
         Button btn = new Button("Delete");
         btn.setOnAction(e -> onDeleteButtonClick());
-        this.gridPane.add(btn, 71, 71);
+        this.gridPane.add(btn, 4, 2);
     }
 
     /** This method appends a "Modify" button to the sub-form view. */

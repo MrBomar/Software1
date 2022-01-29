@@ -120,8 +120,6 @@ public class Inventory {
      * @return Returns 'true' if the Part was successfully removed from the Parts inventory.
      */
     public static boolean deletePart(Part selectedPart) {
-        //We need to check the "Product Inventory" first to ensure this part is not associated with any products.
-
         //Loop through all the products
         for(Product product: allProducts) {
             for(Part part: product.getAllAssociatedParts()) {

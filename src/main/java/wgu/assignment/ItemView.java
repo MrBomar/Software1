@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import static wgu.assignment.Views.*;
+import static wgu.assignment.ModalMode.*;
 
 /**
  * This is an abstract class for the Part and Product editing view.
@@ -212,53 +213,43 @@ public abstract class ItemView {
      */
     protected boolean validateBeforeSave() {
         if(!this.validInt(this.stockField.getText())) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Inv' field is invalid. Please enter an non-decimal numeric value.");
+            new Modal(INVALID_STOCK);
             return false;
         }
         else if(!this.validDouble(this.priceField.getText())) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Price' field is invalid. Please enter a valid dollar amount.");
+            new Modal(INVALID_PRICE);
             return false;
         }
         else if(!this.validInt(this.maxField.getText())) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Max' field is invalid. Please enter a non-decimal numeric value.");
+            new Modal(INVALID_MAX);
             return false;
         }
         else if(!this.validInt(this.minField.getText())) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Min' field is invalid. Please enter a non-decimal numeric value.");
+            new Modal(INVALID_MIN);
             return false;
         }
         else if(this.getStockInt() < 0) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Inv' field is invalid. Number cannot be negative.");
+            new Modal(NEGATIVE_STOCK);
             return false;
         }
         else if(this.getPriceDouble() < 0) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Price' field is invalid. Number cannot be negative.");
+            new Modal(NEGATIVE_PRICE);
             return false;
         }
         else if(this.getMaxInt() < 0) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Max' field is invalid. Number cannot be negative.");
+            new Modal(NEGATIVE_MAX);
             return false;
         }
         else if(this.getMinInt() < 0) {
-            new Modal("Invalid Entry",
-                    "The value entered in the 'Min' field is invalid. Number cannot be negative.");
+            new Modal(NEGATIVE_MIN);
             return false;
         }
         else if(this.getMaxInt() < this.getMinInt()) {
-            new Modal("Invalid Entry",
-                    "The value in 'Max' cannot be less than the value in 'Min'.");
+            new Modal(INVALID_MIN_MAX);
             return false;
         }
         else if((this.getStockInt() < this.getMinInt())||(this.getStockInt() > this.getMaxInt())) {
-            new Modal("Invalid Entry", "" +
-                    "The value is 'Inv' cannot be less than 'Min' or less than 'Max'.");
+            new Modal(OUT_OF_RANGE_STOCK);
             return false;
         }
         else {

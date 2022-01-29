@@ -157,8 +157,7 @@ public class PartView extends ItemView {
                    return true;
                 }
                 else {
-                    new Modal("Invalid Entry",
-                            "The value entered in the 'Machine ID' field is invalid. Please enter an non-decimal numeric value.");
+                    new Modal(ModalMode.INVALID_MACHINE_ID);
                     return false;
                 }
             }

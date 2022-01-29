@@ -60,6 +60,7 @@ public class InventoryControlApplication extends Application {
                 stage.setScene(mainView.getScene());
                 break;
             default:
+
                 stage.close();
         }
         stage.show();

@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import static wgu.assignment.ModalMode.*;
 
 /**
  * Renders the products inventory sub form view.
@@ -35,15 +36,20 @@ public class ProductsInventorySubForm extends InventorySubForm {
 
     /**
      * Verifies that a selection has been made, displays message if there is an empty list or no selection.
+     * <p>RUNTIME ERROR</p>
+     * <p>In this method I had forgot to return false after the statement on line 51. This caused the application to
+     * throw a NullPointerException error when attempting to load the ProductsTableView without a Product being selected.
+     * To fix this I had to insert 'return false;' on line 52.</p>
      * @return Returns false if the list is empty or there is no selection, returns true if selection is made.
      */
     protected boolean checkSelection() {
         if(this.productsTableView.getItems().isEmpty()) {
-            new Modal("Empty List", "There are no products. Consider adding a product.");
+            new Modal(EMPTY_LIST_PRODUCTS);
             return false;
         }
         else if(this.productsTableView.getSelectionModel().isEmpty()) {
-            new Modal("Missing Selection", "Please select a product.");
+            new Modal(NO_SELECTION_PRODUCT);
+            return false;
         }
         return true;
     }
@@ -83,9 +89,7 @@ public class ProductsInventorySubForm extends InventorySubForm {
     /** Removes selected product from inventory, displays error message if product cannot be deleted. */
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
-            if(!Inventory.deleteProduct(this.productsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
-                new Modal("Deletion Error", "Unknown error, product could not be deleted.");
-            }
+            new Modal(CONFIRM_DELETE_PRODUCT, this.productsTableView.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -102,7 +106,7 @@ public class ProductsInventorySubForm extends InventorySubForm {
     /** Displays a message if there are no products to search. */
     protected void onSearchBoxEntered() {
         if (this.productsTableView.getItems().isEmpty()) {
-            new Modal("Empty List", "There are no products in the list.");
+            new Modal(EMPTY_LIST_PRODUCTS);
         }
     }
 

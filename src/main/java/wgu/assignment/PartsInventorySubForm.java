@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import static wgu.assignment.ModalMode.*;
 
 /**
  * This class renders a JavaFX SubForm view with an embedded TableView view.
@@ -75,11 +76,11 @@ public class PartsInventorySubForm extends InventorySubForm {
      */
     protected boolean checkSelection() {
         if(this.partsTableView.getItems().isEmpty()) {
-            new Modal("Empty List", "There are no parts. Consider adding a part.");
+            new Modal(EMPTY_LIST_PARTS);
             return false;
         }
         else if(this.partsTableView.getSelectionModel().isEmpty()) {
-            new Modal("Missing Selection", "Please select a part.");
+            new Modal(NO_SELECTION_PART);
             return false;
         }
         return true;
@@ -134,9 +135,7 @@ public class PartsInventorySubForm extends InventorySubForm {
      */
     protected void onDeleteButtonClick() {
         if(this.checkSelection()) {
-            if(!Inventory.deletePart(this.partsTableView.getSelectionModel().getSelectedItem())) { //Attempt part deletion
-                new Modal("Deletion Error", "Unable to delete part. Check to ensure the part is not associated with any products.");
-            }
+            new Modal(CONFIRM_DELETE_PART, this.partsTableView.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -160,7 +159,7 @@ public class PartsInventorySubForm extends InventorySubForm {
     /** Displays an error message if the Parts list is empty. */
     protected void onSearchBoxEntered() {
         if(this.partsTableView.getItems().isEmpty()) {
-            new Modal("Empty List", "There are no parts in the list.");
+            new Modal(EMPTY_LIST_PARTS);
         }
     }
 

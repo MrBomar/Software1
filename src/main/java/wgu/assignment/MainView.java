@@ -1,6 +1,5 @@
 package wgu.assignment;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -34,9 +33,7 @@ public class MainView {
         this.gridPane.setHgap(10);
 
         //Add the inventory panels
-        final PartsInventorySubForm partsSubForm = new PartsInventorySubForm(
-                Inventory.getAllParts()
-        );
+        final PartsInventorySubForm partsSubForm = new PartsInventorySubForm(Inventory.getAllParts());
         final ProductsInventorySubForm productsSubForm = new ProductsInventorySubForm();
         this.gridPane.add(partsSubForm.getView(), 1, 1);
         this.gridPane.add(productsSubForm.getView(), 2,1);
@@ -50,7 +47,7 @@ public class MainView {
         this.gridPane.add(exitBox, 2,2);
 
         //Exit method
-        exitButton.setOnAction(e -> Platform.exit());
+        exitButton.setOnAction(e -> new Modal(ModalMode.CONFIRM_EXIT));
     }
 
     /**
