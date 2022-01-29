@@ -15,7 +15,7 @@ import static wgu.assignment.ModalMode.*;
  *
  * @author Leslie Calvin Bomar 3rd
  * @version 1.0
- * @since 2020-01-20
+ * @since 2022-01-20
  */
 public abstract class ItemView {
     /** Specifies how the view is to be rendered. */
@@ -250,6 +250,10 @@ public abstract class ItemView {
         }
         else if((this.getStockInt() < this.getMinInt())||(this.getStockInt() > this.getMaxInt())) {
             new Modal(OUT_OF_RANGE_STOCK);
+            return false;
+        }
+        else if(this.nameField.getText().isEmpty()) {
+            new Modal(BLANK_FIELDS);
             return false;
         }
         else {

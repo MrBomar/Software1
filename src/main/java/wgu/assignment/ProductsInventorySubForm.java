@@ -14,6 +14,7 @@ import static wgu.assignment.ModalMode.*;
 /**
  * Renders the products inventory sub form view.
  *
+ *
  * @author Leslie Calvin Bomar 3rd
  * @version 1.0
  * @since 2020-01-20
@@ -129,6 +130,12 @@ public class ProductsInventorySubForm extends InventorySubForm {
                 }
             });
             this.productsTableView.setItems(filtered);
+
+            if(filtered.isEmpty()) {
+                new Modal(BLANK_SEARCH_RESULT);
+                ((TextField) event.getTarget()).setText("");
+                this.productsTableView.setItems(Inventory.getAllProducts());
+            }
         }
     }
 }

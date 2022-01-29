@@ -162,6 +162,10 @@ public class PartView extends ItemView {
                 }
             }
             else {
+                if(this.partMiscField.getText().isEmpty() || this.partMiscField.getText().trim().isEmpty()) {
+                    new Modal(ModalMode.BLANK_FIELDS);
+                    return false;
+                }
                 return true;
             }
         }

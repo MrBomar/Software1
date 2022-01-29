@@ -21,7 +21,7 @@ import static wgu.assignment.ModalMode.*;
  */
 public class PartsInventorySubForm extends InventorySubForm {
     private final TableView<Part> partsTableView = new TableView<>();
-    private ObservableList<Part> origList;
+    private final ObservableList<Part> origList;
     private Product product;
 
     /**
@@ -50,6 +50,7 @@ public class PartsInventorySubForm extends InventorySubForm {
      */
     PartsInventorySubForm(ObservableList<Part> list, Product product, String type) {
         super(type);
+        this.origList = list;
         this.setTableView(list);
         this.product = product;
 
@@ -57,6 +58,7 @@ public class PartsInventorySubForm extends InventorySubForm {
             this.appendRemoveButton();
         } else if(this.type.equals("All Part")) {
             this.appendAddButton(4);
+            this.appendSearchBox("Part");
         }
     }
 
@@ -184,6 +186,12 @@ public class PartsInventorySubForm extends InventorySubForm {
                 }
             });
             this.partsTableView.setItems(filtered);
+
+            if(filtered.isEmpty()) {
+                new Modal(BLANK_SEARCH_RESULT);
+                ((TextField) event.getTarget()).setText("");
+                this.partsTableView.setItems(origList);
+            }
         }
     }
 }

@@ -6,6 +6,8 @@ import static wgu.assignment.Views.*;
 
 /**
  * This class contains the entry point of the Inventory Control application.
+ * <p>FUTURE ENHANCEMENT</p>
+ * <p>I would give each part and product a location field. This would allow the user to more easily locate their inventory.</p>
  *
  * @author Leslie Calvin Bomar 3rd
  * @version 1.0
